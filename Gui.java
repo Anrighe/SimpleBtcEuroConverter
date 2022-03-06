@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,13 +25,17 @@ public class Gui
 	private JPanel btcPanel;
 	private JPanel euroPanel;
 	
+	DecimalFormat numberFormat;
+	
 	public JFrame getF()
 	{
 		return f;
 	}
 	
-	public Gui(Double btcEuroValue)
+	public Gui(Double btcEuroValue, String variation, boolean varSign)
 	{
+		numberFormat = new DecimalFormat("#.#");
+		
 		f = new JFrame("BTC - EURO Converter");
 		f.setLayout(new BorderLayout());
 		
@@ -61,7 +66,15 @@ public class Gui
 		flowLayoutPanel.add(euroPanel);
 		flowLayoutPanel.add(button);
 		
-		title = new JLabel("<html><font color='blue'>1 BTC = " + btcEuroValue + " EURO</font></html>", SwingConstants.CENTER);
+		if (varSign == true)
+		{
+			title = new JLabel("<html><font color='blue'>1 BTC = " + btcEuroValue + " EURO <font color='green'>(" + variation + ")↑</font></html>", SwingConstants.CENTER);
+		}
+		else
+		{
+			title = new JLabel("<html><font color='blue'>1 BTC = " + btcEuroValue + " EURO <font color='red'>(" + variation + ")↓</font></html>", SwingConstants.CENTER);
+		}
+		
 		title.setFont(new Font(null, 10, 30));
 		
 		
