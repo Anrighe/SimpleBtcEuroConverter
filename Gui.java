@@ -79,7 +79,7 @@ public class Gui
 				if(textBtc.getText().matches("[0-9]+(\\.[0-9]+){0,1}"))
 				{
 					textEuro.setForeground(Color.BLUE);
-					textEuro.setText((Double.parseDouble(textBtc.getText()) * btcEuroValue) + "");
+					textEuro.setText((Double.parseDouble(textBtc.getText()) * btcEuroValue) + " €");
 				}
 				else
 				{
