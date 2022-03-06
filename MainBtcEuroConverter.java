@@ -25,10 +25,9 @@ public class MainBtcEuroConverter
 	        String line = null;
 	        String content = "";
 	    
-	        //read each line and write to System.out
 	        while ((line = br.readLine()) != null) 
 	        {
-	            //appending content
+	        	//appending content
 	        	content = content + "\n" + line;	
 	        }
 	        
