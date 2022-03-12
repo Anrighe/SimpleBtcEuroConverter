@@ -12,11 +12,13 @@ import javax.swing.SwingConstants;
 
 public class Gui 
 {
+	private Double btcEuroValue;
 	private JFrame f;
 	private JLabel title;
 	private JLabel labelBtc;
 	private JLabel labelEuro;
 	private JButton button;
+	private JButton refresher;
 	private JTextField textBtc;
 	private JTextField textEuro;
 	private JPanel centerPanel;
@@ -31,9 +33,52 @@ public class Gui
 	{
 		return f;
 	}
-	
-	public Gui(Double btcEuroValue, String variation, boolean varSign)
+	public JButton getRefresher()
 	{
+		return refresher;
+	}
+
+	public void setBtcEuroValue(Double value)
+	{
+		System.out.println("Old btc value: " + btcEuroValue);
+		btcEuroValue = value;
+		System.out.println("New btc value: " + btcEuroValue);
+	}
+	public void setTitle(Double value, String var, boolean sign)
+	{
+		System.out.println("Setting Title");
+		System.out.println("Sign: " + sign);
+		if (sign == true)
+		{
+			title.setText("<html><font color='blue'>1 BTC = " + value + " EURO <font color='green'>(" + var + ")↑</font></html>");
+		}
+		else
+		{
+			title.setText("<html><font color='blue'>1 BTC = " + value + " EURO <font color='red'>(" + var + ")↓</font></html>");
+		}
+	}
+	
+	public void calculate()
+	{
+		if(textBtc.getText().matches("[0-9]+(\\.[0-9]+){0,1}"))
+		{
+			System.out.println("BTC TEXT MATCHES");
+			textEuro.setForeground(Color.BLUE);
+			textEuro.setText(numberFormat.format(Double.parseDouble(textBtc.getText()) * btcEuroValue) + " €");
+		}
+		else
+		{
+			if (textBtc.getText().isEmpty() == false)
+			{
+				textEuro.setForeground(Color.RED);
+				textEuro.setText("Invalid format");
+			}
+		}
+	}
+	
+	public Gui(Double value, String variation, boolean varSign)
+	{
+		btcEuroValue = value;
 		numberFormat = new DecimalFormat("#.#");
 		
 		f = new JFrame("BTC - EURO Converter");
@@ -62,6 +107,9 @@ public class Gui
 		
 		button = new JButton("Convert");
 		
+		refresher = new JButton("Refresh");
+		
+		flowLayoutPanel.add(refresher);
 		flowLayoutPanel.add(btcPanel);
 		flowLayoutPanel.add(euroPanel);
 		flowLayoutPanel.add(button);
@@ -89,18 +137,11 @@ public class Gui
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(textBtc.getText().matches("[0-9]+(\\.[0-9]+){0,1}"))
-				{
-					textEuro.setForeground(Color.BLUE);
-					textEuro.setText(numberFormat.format(Double.parseDouble(textBtc.getText()) * btcEuroValue) + " €");
-				}
-				else
-				{
-					textEuro.setForeground(Color.RED);
-					textEuro.setText("Invalid format");
-				}
+				calculate();
 			}
 		});
+		
+
 			
 		f.pack();
 		f.setLocationRelativeTo(null);
